@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe Kippu::TicketChecker do
   let(:ticket_checker) { Kippu::TicketChecker.new(station: station) }
-  let(:ticket) { spy('ticket') }
+  let(:ticket) { Kippu::Ticket.new(fare: fare) }
+  let(:fare) { 150 }
 
   describe 'admit' do
     let(:station) { 'umeda' }
@@ -15,8 +16,22 @@ describe Kippu::TicketChecker do
   describe 'out' do
     let(:station) { 'jyuso' }
 
-    example do 
-      expect(ticket_checker.out(ticket)).to be true
+    before do
+      allow(ticket).to receive(:admission_station).and_return('umeda')
+    end
+
+    context 'ok' do
+      example do 
+        expect(ticket_checker.out(ticket)).to be true
+      end
+    end
+
+    context 'lack of fare' do
+      let(:station) { 'syonai' }
+      
+      example do 
+        expect(ticket_checker.out(ticket)).to be false
+      end
     end
   end
 
@@ -28,6 +43,17 @@ describe Kippu::TicketChecker do
 
       expect(umeda_ticket_checker.admit(ticket)).to be true
       expect(jyuso_ticket_checker.out(ticket)).to be true
+    end
+  end
+
+  describe 'scenario 2' do
+    example do 
+      ticket = Kippu::Ticket.new(fare: 150)
+      umeda_ticket_checker = Kippu::TicketChecker.new(station: 'umeda')
+      syonai_ticket_checker = Kippu::TicketChecker.new(station: 'syonai')
+
+      expect(umeda_ticket_checker.admit(ticket)).to be true
+      expect(syonai_ticket_checker.out(ticket)).to be false
     end
   end
 end
