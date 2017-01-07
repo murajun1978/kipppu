@@ -15,7 +15,10 @@ module Kippu
     end
 
     def out(ticket)
+      # FIXME: refactoring
       start_section = STATIONS.index(ticket.admission_station)
+      section = stop_section - start_section
+      section = section * -1 if section < 0
       fare = FARE_LIST[(stop_section - start_section)]
       
       ticket.fare >= fare

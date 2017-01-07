@@ -122,4 +122,15 @@ describe Kippu::TicketChecker do
       expect(okamachi_ticket_checker.out(ticket)).to be true
     end
   end
+
+  describe 'scenario 9' do
+    example do 
+      ticket = Kippu::Ticket.new(fare: 180)
+      jyuso_ticket_checker = Kippu::TicketChecker.new(station: 'okamachi')
+      okamachi_ticket_checker = Kippu::TicketChecker.new(station: 'jyuso')
+
+      expect(jyuso_ticket_checker.admit(ticket)).to be true
+      expect(okamachi_ticket_checker.out(ticket)).to be true
+    end
+  end
 end
