@@ -56,4 +56,70 @@ describe Kippu::TicketChecker do
       expect(syonai_ticket_checker.out(ticket)).to be false
     end
   end
+
+  describe 'scenario 3' do
+    example do 
+      ticket = Kippu::Ticket.new(fare: 180)
+      umeda_ticket_checker = Kippu::TicketChecker.new(station: 'umeda')
+      syonai_ticket_checker = Kippu::TicketChecker.new(station: 'syonai')
+
+      expect(umeda_ticket_checker.admit(ticket)).to be true
+      expect(syonai_ticket_checker.out(ticket)).to be true
+    end
+  end
+
+  describe 'scenario 4' do
+    example do 
+      ticket = Kippu::Ticket.new(fare: 220)
+      umeda_ticket_checker = Kippu::TicketChecker.new(station: 'umeda')
+      syonai_ticket_checker = Kippu::TicketChecker.new(station: 'syonai')
+
+      expect(umeda_ticket_checker.admit(ticket)).to be true
+      expect(syonai_ticket_checker.out(ticket)).to be true
+    end
+  end
+
+  describe 'scenario 5' do
+    example do 
+      ticket = Kippu::Ticket.new(fare: 180)
+      umeda_ticket_checker = Kippu::TicketChecker.new(station: 'umeda')
+      okamachi_ticket_checker = Kippu::TicketChecker.new(station: 'okamachi')
+
+      expect(umeda_ticket_checker.admit(ticket)).to be true
+      expect(okamachi_ticket_checker.out(ticket)).to be false
+    end
+  end
+
+  describe 'scenario 6' do
+    example do 
+      ticket = Kippu::Ticket.new(fare: 220)
+      umeda_ticket_checker = Kippu::TicketChecker.new(station: 'umeda')
+      okamachi_ticket_checker = Kippu::TicketChecker.new(station: 'okamachi')
+
+      expect(umeda_ticket_checker.admit(ticket)).to be true
+      expect(okamachi_ticket_checker.out(ticket)).to be true
+    end
+  end
+
+  describe 'scenario 7' do
+    example do 
+      ticket = Kippu::Ticket.new(fare: 150)
+      jyuso_ticket_checker = Kippu::TicketChecker.new(station: 'jyuso')
+      okamachi_ticket_checker = Kippu::TicketChecker.new(station: 'okamachi')
+
+      expect(jyuso_ticket_checker.admit(ticket)).to be true
+      expect(okamachi_ticket_checker.out(ticket)).to be false
+    end
+  end
+
+  describe 'scenario 8' do
+    example do 
+      ticket = Kippu::Ticket.new(fare: 180)
+      jyuso_ticket_checker = Kippu::TicketChecker.new(station: 'jyuso')
+      okamachi_ticket_checker = Kippu::TicketChecker.new(station: 'okamachi')
+
+      expect(jyuso_ticket_checker.admit(ticket)).to be true
+      expect(okamachi_ticket_checker.out(ticket)).to be true
+    end
+  end
 end
